@@ -67,6 +67,40 @@ public class DefaultEventManager implements EventManager
         listeners.remove(listenerKey);
     }
 
+    public void specialListener(String listenerKey, InterviewEventListener listener) {
+        if (listenerKey == null || listenerKey.equals(""))
+        throw new IllegalArgumentException("Key for the listener must not be null: " + listenerKey);
+
+        if (listener == null)
+            throw new IllegalArgumentException("The listener must not be null: " + listener);
+
+        if (listeners.containsKey(listenerKey))
+            unregisterListener(listenerKey);
+
+        Class[] classes = listener.getHandledEventClasses();
+
+        if (classes.length == 0) {
+
+            Set<Map.Entry<String,Class[]>> s = listeners.entrySet();
+
+            for (Map.Entry<String, Class[]> it: s)
+            {
+                Object ob = it.getValue();
+                InterviewEventListener reader = (InterviewEventListener) ob;
+
+                classes = reader.getHandledEventClasses();
+
+                for (int i = 0; i < classes.length; i++)
+                    addToListenerList(classes[i], listener);
+            }
+        }
+        else {
+            for (int i = 0; i < classes.length; i++)
+                addToListenerList(classes[i], listener);
+        }
+        listeners.put(listenerKey, listener);
+    }
+
     private void sendEventTo(InterviewEvent event, Collection listeners)
     {
         if (listeners == null || listeners.size() == 0)

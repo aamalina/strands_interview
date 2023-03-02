@@ -27,4 +27,14 @@ public interface EventManager
      * @param listenerKey the key under which the listener was registered.
      */
     void unregisterListener(String listenerKey);
+
+    /**
+     * Register a listener to receive InterviewEvents. If you register a listener with the
+     * same key as an existing listener, the previous listener with that key will be unregistered.
+     * specialListener listens to all events if event is empty.
+     * @param listenerKey A unique key for this listener. If the listener is a plugin module, use the
+     *        modules complete key
+     * @param listener The listener that is being registered
+     */
+    void specialListener(String listenerKey, InterviewEventListener listener);
 }
