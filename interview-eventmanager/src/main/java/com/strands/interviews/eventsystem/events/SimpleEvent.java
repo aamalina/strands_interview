@@ -15,4 +15,9 @@ public class SimpleEvent implements InterviewEvent
     {
         return source;
     }
+
+    public void setSource(Object source)
+    {
+        this.source = source;
+    }
 }

@@ -6,4 +6,16 @@ public class CreationEvent extends SimpleEvent implements Creation
     {
         super(source);
     }
+
+    private Object source;
+
+    public Object getSource()
+    {
+        return source;
+    }
+
+    public void setSource(Object source)
+    {
+        this.source = source;
+    }
 }

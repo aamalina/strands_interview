@@ -139,4 +139,25 @@ public class DefaultEventManagerTest
 
         assertNotEquals(((DefaultEventManager) eventManager).getListeners().size(), 0);
     }
+
+    @Test
+    public void testNotificationForListenerNewFeature()
+    {
+        EventListenerMock eventListenerMock = new EventListenerMock(new Class[]{SimpleEvent.class});
+        EventListenerMock eventListenerMock2 = new EventListenerMock(new Class[]{SubEvent.class});
+        EventListenerMock eventListenerMock3 = new EventListenerMock(new Class[]{CreationEvent.class});
+
+        eventManager.registerListener("some.key", eventListenerMock2);
+        eventManager.registerListener("somes.key", eventListenerMock);
+        eventManager.registerListener("new.key", eventListenerMock3);
+
+        eventManager.publishEvent(new SubEvent(this));
+        eventManager.publishEvent(new SimpleEvent(this));
+        eventManager.publishEvent(new CreationEvent(this));
+
+        assertTrue(eventListenerMock.isCalled());
+        assertTrue(eventListenerMock2.isCalled());
+        assertTrue(eventListenerMock3.isCalled());
+    }
+
 }
